@@ -9,15 +9,27 @@ class Spritesheet:
     Class that creates a spritesheet with selections.
     '''
     def __init__(self, file):
+        '''
+        Initializes the spritesheet
+        '''
         self.sheet = pygame.image.load(file).convert()
     def get_sprite(self, x, y, width, height):
+        '''
+        Gets a specific sprite from spritesheet
+        '''
         sprite = pygame.Surface([width, height])
         sprite.blit(self.sheet, (0,0), (x, y, width, height))
         sprite.set_colorkey(BLACK)
         return sprite
 
 class Player(pygame.sprite.Sprite):
+    '''
+    Class that defines the player
+    '''
     def __init__(self, game, x, y):
+        '''
+        Initializes the Player class
+        '''
         self.game = game
         self._layer = PLAYER_LAYER
         self.groups = self.game.all_sprites
@@ -31,7 +43,7 @@ class Player(pygame.sprite.Sprite):
         self.lives = 3
         self.last_hit = 0
         
-        self.heart_img = pygame.image.load("heart.png")
+        self.heart_img = pygame.image.load("Programming-2-Project\PROGRAMMING_BRAWLER\heart.png")
 
         
         self.x_change = 0
@@ -66,10 +78,14 @@ class Player(pygame.sprite.Sprite):
         
     
     def update(self):
+        '''
+        Updates the Player class
+         '''
         self.movement()
         self.animate()
-        self.collide_enemy()
         self.draw_lives()
+        self.collide_enemy()
+        
 
         
         self.rect.x += self.x_change
@@ -81,6 +97,9 @@ class Player(pygame.sprite.Sprite):
         self.y_change = 0
 
     def movement(self):
+        '''
+        Movement for Player class
+        '''
         keys = pygame.key.get_pressed()
         dx, dy = 0, 0  # movement delta
 
@@ -110,18 +129,24 @@ class Player(pygame.sprite.Sprite):
 
 
     def take_damage(self, amount=1):
+        '''
+        How the Player takes damage when touching enemy
+        '''
         now = pygame.time.get_ticks()
         if now - self.last_hit > 1000:  # 1-second cooldown
             self.lives -= amount
             self.last_hit = now
             if self.lives <= 0:
-                death = pygame.mixer.Sound('death.mp3')
+                death = pygame.mixer.Sound('Programming-2-Project\PROGRAMMING_BRAWLER\gta-v-wasted-death-sound.mp3')
                 death.play()
                 self.kill()
                 self.game.playing = False
 
             
     def collide_enemy(self):
+        '''
+        Collision detection with enemy
+        '''
         hits = pygame.sprite.spritecollide(self, self.game.enemies, False)
         if hits:
             self.take_damage()
@@ -129,13 +154,21 @@ class Player(pygame.sprite.Sprite):
                     
     
     def draw_lives(self):
+        '''
+        Puts lives on screen with each heart scaled to 32x32 pixels
+        '''
+        heart_scaled = pygame.transform.scale(self.heart_img, (32, 32))
         for i in range(self.lives):
-            self.game.screen.blit(self.heart_img, (10 + i * 35, 10))
+            self.game.screen.blit(heart_scaled, (10 + i * 35, 10))
+
 
 
 
             
     def collide_blocks(self, direction):
+        '''
+        Collision detection with borders
+        '''
         if direction == 'x':
             hits = pygame.sprite.spritecollide(self, self.game.blocks, False)
             if hits:
@@ -161,6 +194,9 @@ class Player(pygame.sprite.Sprite):
                         sprite.rect.y -= PLAYER_SPEED
     
     def animate(self):
+        '''
+        Walking animations for Player
+        '''
         
         if self.facing == 'left':
             if self.x_change == 0:
@@ -198,7 +234,12 @@ class Player(pygame.sprite.Sprite):
                     self.animation_loop = 1 
                     
 class Enemy(pygame.sprite.Sprite):
+    '''
+    Creates an Enemy class
+    '''
     def __init__(self, game, x, y):
+        '''
+        '''
         
         self.lives = 3
         
@@ -305,14 +346,12 @@ class Enemy(pygame.sprite.Sprite):
                 self.animation_loop += 0.1
                 if self.animation_loop >= 3:
                     self.animation_loop = 1
-    def take_damage(self, amount=1):
-        self.lives -= amount
+    def take_damage(self):
+        self.lives -= 1
         if self.lives <= 0:
-            bong = pygame.mixer.Sound('death-bong.mp3')
+            bong = pygame.mixer.Sound('Programming-2-Project\PROGRAMMING_BRAWLER\death-bong.mp3')
             bong.play()
             self.kill()
-
-                    
 
 class Block(pygame.sprite.Sprite):
     def __init__(self, game, x, y):

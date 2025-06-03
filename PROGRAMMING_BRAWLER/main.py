@@ -18,16 +18,16 @@ class Game:
         self.enemies = pygame.sprite.LayeredUpdates()
         self.attacks = pygame.sprite.LayeredUpdates()
         
-        self.character_spritesheet = Spritesheet('character.png')
-        self.terrain_spritesheet = Spritesheet('terrain.png')
-        self.enemy_spritesheet = Spritesheet('enemy.png')
-        self.attack_spritesheet = Spritesheet('attack.png')
-        self.intro_background = pygame.image.load('introbackground.png')
-        self.go_background = pygame.image.load('gameover.png')
+        self.character_spritesheet = Spritesheet('Programming-2-Project\PROGRAMMING_BRAWLER\character.png')
+        self.terrain_spritesheet = Spritesheet('Programming-2-Project/PROGRAMMING_BRAWLER/terrain.png')
+        self.enemy_spritesheet = Spritesheet('Programming-2-Project\PROGRAMMING_BRAWLER\enemy.png')
+        self.attack_spritesheet = Spritesheet('Programming-2-Project/PROGRAMMING_BRAWLER/attack.png')
+        self.intro_background = pygame.image.load('Programming-2-Project\PROGRAMMING_BRAWLER\introbackground.png')
+        self.go_background = pygame.image.load('Programming-2-Project\PROGRAMMING_BRAWLER\gameover.png')
     def createTilemap(self):
         for i, row in enumerate(tilemap):
             for j, column in enumerate(row):
-                Ground(self, j, i) 
+                Ground(self, j, i)
                 if column == ',':
                     Ground2(self, j, i)
                 if column == ';':
@@ -89,7 +89,7 @@ class Game:
 
         
     def new(self):
-        pygame.mixer.music.load('SLOWER-TEMPO2019-12-09_-_Retro_Forest_-_David_Fesliyan.mp3')
+        pygame.mixer.music.load('Programming-2-Project\PROGRAMMING_BRAWLER\SLOWER-TEMPO2019-12-09_-_Retro_Forest_-_David_Fesliyan.mp3')
         pygame.mixer.music.play(loops=-1)
         self.createTilemap()
         self.playing = True
@@ -132,7 +132,7 @@ class Game:
             self.update()
             self.draw()
         if self.playing == False:
-            death = pygame.mixer.Sound('gta-v-wasted-death-sound.mp3')
+            death = pygame.mixer.Sound('Programming-2-Project\PROGRAMMING_BRAWLER\gta-v-wasted-death-sound.mp3')
             death.play()
             time.sleep(2.3)
         
