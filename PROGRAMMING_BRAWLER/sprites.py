@@ -101,7 +101,7 @@ class Player(pygame.sprite.Sprite):
         Movement for Player class
         '''
         keys = pygame.key.get_pressed()
-        dx, dy = 0, 0  # movement delta
+        dx, dy = 0, 0
 
         if keys[pygame.K_UP]:
             dy = -PLAYER_SPEED
@@ -133,7 +133,7 @@ class Player(pygame.sprite.Sprite):
         How the Player takes damage when touching enemy
         '''
         now = pygame.time.get_ticks()
-        if now - self.last_hit > 1000:  # 1-second cooldown
+        if now - self.last_hit > 1000:
             self.lives -= amount
             self.last_hit = now
             if self.lives <= 0:
@@ -290,7 +290,7 @@ class Enemy(pygame.sprite.Sprite):
     def in_range_of_player(self):
         dx = abs(self.game.player.rect.centerx - self.rect.centerx)
         dy = abs(self.game.player.rect.centery - self.rect.centery)
-        return dx < 128 and dy < 128  # chase only if player is close both horizontally and vertically
+        return dx < 128 and dy < 128
 
     
     def chase_player(self):
@@ -300,8 +300,7 @@ class Enemy(pygame.sprite.Sprite):
         else:
             self.facing = 'right'
             self.x_change += ENEMY_SPEED
-    
-        # Move vertically towards player
+
         if self.game.player.rect.centery < self.rect.centery:
             self.y_change -= ENEMY_SPEED
         elif self.game.player.rect.centery > self.rect.centery:
@@ -319,7 +318,7 @@ class Enemy(pygame.sprite.Sprite):
             self.movement_loop -= 1
             if self.movement_loop <= -self.max_travel:
                 self.facing = 'right'
-                self.pause_time = 20  # ~20 frames pause
+                self.pause_time = 20
 
         elif self.facing == 'right':
             self.x_change += ENEMY_SPEED

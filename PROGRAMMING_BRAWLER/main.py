@@ -167,7 +167,7 @@ class Game:
         intro = True
         
         title = self.font.render('IsleQuest', True, BLACK)
-        title_rect = title.get_rect(x=155, y=160)
+        title_rect = title.get_rect(x=100, y=100)
         
         play_button = Button(225, 240, 200, 50, WHITE, BLACK, 'Start  Quest')
         
